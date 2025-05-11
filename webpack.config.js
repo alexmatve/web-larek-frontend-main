@@ -70,6 +70,13 @@ const config = {
 
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[name][ext]'
+        }
+      }
     ],
   },
   resolve: {

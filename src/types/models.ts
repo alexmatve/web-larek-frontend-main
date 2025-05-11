@@ -1,4 +1,4 @@
-import { Id, Category, Title, Price, Image, Description, PayMethod, Address, Email, Telephone } from "./controller";
+import { Id, Category, Title, Price, Image, Description, payment, Address, Email, phone, Status } from "./controller";
 
 //---------------------------MODELS-------------------------
 // Интерфейс товара
@@ -9,6 +9,7 @@ export interface IProduct {
     price: Price;
     image: Image;
     description: Description;
+    
 }
 
 // список всех товаров
@@ -27,26 +28,41 @@ export interface IBasketModel extends IProductsModel{
 }
 
 export interface ICustomerData { // данные о покупателе
-    payMethod: PayMethod;
+    payment: payment;
     address: Address; 
     email: Email; 
-    telephone: Telephone; 
+    phone: phone; 
     total: number;
-    items: IProduct[];
+    items: Id[];
 }
 
+
 // 3. API для получения товаров;
-export interface IListResult<T> { // объявляем дженерик, где T — любой тип
-    total: number;
-    items: T[];
+export interface ILarekAPI {
+    getProductsList: () => Promise<ApiListResponse<IProduct>>;
+    getProduct: (id: Id) => Promise<IProductResult>;
+    postProduct: (order: ICustomerData) => Promise<IProductPut>;
 }
+
+
+
+export type ApiListResponse<Type> = {
+    total: number,
+    items: Type[]
+};
 
 export interface IProductResult extends IProduct{ 
 }
 
+export interface IProductPut {
+    id: Id;
+    total: number;
+}
+
+
 // интерфейс API
 export interface IProductListAPI {
-    load(): Promise<IListResult<IProduct>>;
+    load(): Promise<ApiListResponse<IProduct>>;
 }
 export interface IProductItemAPI {
     load(id: Id): Promise<IProductResult>;

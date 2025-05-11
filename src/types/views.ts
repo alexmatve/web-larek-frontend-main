@@ -1,4 +1,4 @@
-import { Id, Category, Title, Price, Image, Description, PayMethod, Address, Email, Telephone } from "./controller";
+import { Id, Category, Title, Price, Image, Description, payment, Address, Email, phone } from "./controller";
 import { IProduct } from "./models";
 
 //---------------------------VIEW-------------------------
@@ -32,15 +32,19 @@ export interface IBasketView {
 }
 
 export interface IOrderView {
-    payMethod: PayMethod;
+    payment: payment;
     address: Address; 
-    
 }
 
 export interface IContactsView {
     email: Email; 
-    telephone: Telephone; 
+    phone: phone; 
 }
+
+export interface IOrderData extends IOrderView, IContactsView {}
+
+export type FormErrors = Partial<Record<keyof IOrderData, string>>;
+
 
 export interface IOrderResult {
     total: number;
